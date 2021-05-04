@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CobranzaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Materiales">
+          <Key>
+            <PropertyRef Name="idmaterial" />
+          </Key>
+          <Property Name="idmaterial" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idcorrelativo" Type="int" />
+          <Property Name="idmatricula" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="5000" Nullable="false" />
+          <Property Name="Stock_inventario" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="idunidadmedida" Type="int" />
+          <Property Name="preciopromedio" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="idmoneda" Type="int" />
+          <Property Name="stockminimo" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="flg_anulado" Type="bit" Nullable="false" />
+          <Property Name="Usu_creacion" Type="int" Nullable="false" />
+          <Property Name="Usu_modificacion" Type="int" />
+          <Property Name="Fec_Creacion" Type="datetime" Nullable="false" />
+          <Property Name="Fec_Modificacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Moneda">
+          <Key>
+            <PropertyRef Name="idmoneda" />
+          </Key>
+          <Property Name="idmoneda" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="simbolo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UnidaMedida">
+          <Key>
+            <PropertyRef Name="idunidadmedida" />
+          </Key>
+          <Property Name="idunidadmedida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idcorrelativo" Type="int" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="10" />
+          <Property Name="flg_anulado" Type="bit" />
+          <Property Name="usu_creacion" Type="int" />
+          <Property Name="usu_modificacion" Type="int" />
+          <Property Name="fec_Creacion" Type="datetime" />
+          <Property Name="fec_Modificacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Pasword" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="9" />
+          <Property Name="Correo" Type="varchar" MaxLength="100" />
+          <Property Name="Idperfilcab" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Flg_estado" Type="int" Nullable="false" />
+          <Property Name="Usu_creacion" Type="int" Nullable="false" />
+          <Property Name="Usu_modificacion" Type="int" />
+          <Property Name="Fec_Creacion" Type="datetime" Nullable="false" />
+          <Property Name="Fec_Modificacion" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Materiales_Moneda">
+          <End Role="Moneda" Type="Self.Moneda" Multiplicity="0..1" />
+          <End Role="Materiales" Type="Self.Materiales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="idmoneda" />
+            </Principal>
+            <Dependent Role="Materiales">
+              <PropertyRef Name="idmoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materiales_UnidaMedida">
+          <End Role="UnidaMedida" Type="Self.UnidaMedida" Multiplicity="0..1" />
+          <End Role="Materiales" Type="Self.Materiales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnidaMedida">
+              <PropertyRef Name="idunidadmedida" />
+            </Principal>
+            <Dependent Role="Materiales">
+              <PropertyRef Name="idunidadmedida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CobranzaModelStoreContainer">
+          <EntitySet Name="Materiales" EntityType="Self.Materiales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnidaMedida" EntityType="Self.UnidaMedida" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Materiales_Moneda" Association="Self.FK_Materiales_Moneda">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="Materiales" EntitySet="Materiales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materiales_UnidaMedida" Association="Self.FK_Materiales_UnidaMedida">
+            <End Role="UnidaMedida" EntitySet="UnidaMedida" />
+            <End Role="Materiales" EntitySet="Materiales" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CobranzaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Materiales">
+          <Key>
+            <PropertyRef Name="idmaterial" />
+          </Key>
+          <Property Name="idmaterial" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idcorrelativo" Type="Int32" />
+          <Property Name="idmatricula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Stock_inventario" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="idunidadmedida" Type="Int32" />
+          <Property Name="preciopromedio" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="idmoneda" Type="Int32" />
+          <Property Name="stockminimo" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="flg_anulado" Type="Boolean" Nullable="false" />
+          <Property Name="Usu_creacion" Type="Int32" Nullable="false" />
+          <Property Name="Usu_modificacion" Type="Int32" />
+          <Property Name="Fec_Creacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Fec_Modificacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Moneda" Relationship="CobranzaModel.FK_Materiales_Moneda" FromRole="Materiales" ToRole="Moneda" />
+          <NavigationProperty Name="UnidaMedida" Relationship="CobranzaModel.FK_Materiales_UnidaMedida" FromRole="Materiales" ToRole="UnidaMedida" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pasword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Idperfilcab" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Flg_estado" Type="Int32" Nullable="false" />
+          <Property Name="Usu_creacion" Type="Int32" Nullable="false" />
+          <Property Name="Usu_modificacion" Type="Int32" />
+          <Property Name="Fec_Creacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Fec_Modificacion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="CobranzaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Materiales" EntityType="Self.Materiales" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="Moneda" EntityType="CobranzaModel.Moneda" />
+          <EntitySet Name="UnidaMedida" EntityType="CobranzaModel.UnidaMedida" />
+          <AssociationSet Name="FK_Materiales_Moneda" Association="CobranzaModel.FK_Materiales_Moneda">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="Materiales" EntitySet="Materiales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Materiales_UnidaMedida" Association="CobranzaModel.FK_Materiales_UnidaMedida">
+            <End Role="UnidaMedida" EntitySet="UnidaMedida" />
+            <End Role="Materiales" EntitySet="Materiales" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Moneda">
+          <Key>
+            <PropertyRef Name="idmoneda" />
+          </Key>
+          <Property Name="idmoneda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="simbolo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Materiales" Relationship="CobranzaModel.FK_Materiales_Moneda" FromRole="Moneda" ToRole="Materiales" />
+        </EntityType>
+        <EntityType Name="UnidaMedida">
+          <Key>
+            <PropertyRef Name="idunidadmedida" />
+          </Key>
+          <Property Name="idunidadmedida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idcorrelativo" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Abreviatura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="flg_anulado" Type="Boolean" />
+          <Property Name="usu_creacion" Type="Int32" />
+          <Property Name="usu_modificacion" Type="Int32" />
+          <Property Name="fec_Creacion" Type="DateTime" Precision="3" />
+          <Property Name="fec_Modificacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Materiales" Relationship="CobranzaModel.FK_Materiales_UnidaMedida" FromRole="UnidaMedida" ToRole="Materiales" />
+        </EntityType>
+        <Association Name="FK_Materiales_Moneda">
+          <End Type="CobranzaModel.Moneda" Role="Moneda" Multiplicity="0..1" />
+          <End Type="CobranzaModel.Materiales" Role="Materiales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="idmoneda" />
+            </Principal>
+            <Dependent Role="Materiales">
+              <PropertyRef Name="idmoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Materiales_UnidaMedida">
+          <End Type="CobranzaModel.UnidaMedida" Role="UnidaMedida" Multiplicity="0..1" />
+          <End Type="CobranzaModel.Materiales" Role="Materiales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnidaMedida">
+              <PropertyRef Name="idunidadmedida" />
+            </Principal>
+            <Dependent Role="Materiales">
+              <PropertyRef Name="idunidadmedida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CobranzaModelStoreContainer" CdmEntityContainer="CobranzaEntities">
+          <EntitySetMapping Name="Materiales">
+            <EntityTypeMapping TypeName="CobranzaModel.Materiales">
+              <MappingFragment StoreEntitySet="Materiales">
+                <ScalarProperty Name="idmaterial" ColumnName="idmaterial" />
+                <ScalarProperty Name="idcorrelativo" ColumnName="idcorrelativo" />
+                <ScalarProperty Name="idmatricula" ColumnName="idmatricula" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="Stock_inventario" ColumnName="Stock_inventario" />
+                <ScalarProperty Name="idunidadmedida" ColumnName="idunidadmedida" />
+                <ScalarProperty Name="preciopromedio" ColumnName="preciopromedio" />
+                <ScalarProperty Name="idmoneda" ColumnName="idmoneda" />
+                <ScalarProperty Name="stockminimo" ColumnName="stockminimo" />
+                <ScalarProperty Name="flg_anulado" ColumnName="flg_anulado" />
+                <ScalarProperty Name="Usu_creacion" ColumnName="Usu_creacion" />
+                <ScalarProperty Name="Usu_modificacion" ColumnName="Usu_modificacion" />
+                <ScalarProperty Name="Fec_Creacion" ColumnName="Fec_Creacion" />
+                <ScalarProperty Name="Fec_Modificacion" ColumnName="Fec_Modificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="CobranzaModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Pasword" ColumnName="Pasword" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Idperfilcab" ColumnName="Idperfilcab" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Flg_estado" ColumnName="Flg_estado" />
+                <ScalarProperty Name="Usu_creacion" ColumnName="Usu_creacion" />
+                <ScalarProperty Name="Usu_modificacion" ColumnName="Usu_modificacion" />
+                <ScalarProperty Name="Fec_Creacion" ColumnName="Fec_Creacion" />
+                <ScalarProperty Name="Fec_Modificacion" ColumnName="Fec_Modificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Moneda">
+            <EntityTypeMapping TypeName="CobranzaModel.Moneda">
+              <MappingFragment StoreEntitySet="Moneda">
+                <ScalarProperty Name="simbolo" ColumnName="simbolo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idmoneda" ColumnName="idmoneda" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnidaMedida">
+            <EntityTypeMapping TypeName="CobranzaModel.UnidaMedida">
+              <MappingFragment StoreEntitySet="UnidaMedida">
+                <ScalarProperty Name="fec_Modificacion" ColumnName="fec_Modificacion" />
+                <ScalarProperty Name="fec_Creacion" ColumnName="fec_Creacion" />
+                <ScalarProperty Name="usu_modificacion" ColumnName="usu_modificacion" />
+                <ScalarProperty Name="usu_creacion" ColumnName="usu_creacion" />
+                <ScalarProperty Name="flg_anulado" ColumnName="flg_anulado" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="idcorrelativo" ColumnName="idcorrelativo" />
+                <ScalarProperty Name="idunidadmedida" ColumnName="idunidadmedida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
